@@ -17,6 +17,7 @@ export const styles: Record<string, React.CSSProperties> = {
     borderRadius: '8px',
     boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
     padding: '24px',
+    marginTop: '24px',
     marginBottom: '24px',
   },
   title: {
