@@ -5,8 +5,41 @@ import { styles } from './styles';
 import MonthlyStatsSection from './components/MonthlyStats';
 import GoalSection from './components/GoalSection';
 import TradeModal from './components/TradeModal';
+import { useAuth } from './contexts/AuthContext';
+import { Auth } from './components/Auth';
+import { signOut } from './lib/auth';
 
 const PnLCalendar: React.FC = () => {
+
+  // Add auth
+  const { user, loading } = useAuth();
+  
+  // Show loading spinner while checking authentication
+  if (loading) {
+    return (
+      <div style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: '100vh',
+        fontSize: '1.5rem',
+        color: '#6b7280'
+      }}>
+        Loading...
+      </div>
+    )
+  }
+  
+  // If no user is logged in, show the auth component
+  if (!user) {
+    return <Auth />;
+  }
+
+  // User is logged in - show the calendar
+  return <CalendarApp user={user} />;
+};
+
+const CalendarApp: React.FC<{ user: any }> = ({ user }) => {
   const [currentDate, setCurrentDate] = useState(new Date());
   
   // Sample data - replace with your actual data
@@ -266,11 +299,63 @@ const PnLCalendar: React.FC = () => {
     }));
   };
 
+  const handleSignOut = async () => {
+    try {
+      await signOut();
+
+      // User will automatically be redirected to login by AuthContext
+    }
+
+    catch (error) {
+      console.error('Error signing out:', error);
+    }
+  };
+
   const stats = calculateMonthlyStats();
   const goalProgress = calculateGoalProgress(stats);
 
   return (
     <div style={styles.container}>
+      {/* Header with Sign Out Button */}
+      <div style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        background: 'white',
+        borderBottom: '1px solid #e5e7eb',
+        padding: '0.5rem 2rem',
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        zIndex: 1000
+      }}>
+        <div>
+          <span style={{ color: '#6b7280', marginRight: '1rem' }}>
+            Logged in as: <strong>{user.email}</strong>
+          </span>
+        </div>
+
+        <button
+         onClick={handleSignOut}
+          style={{
+            padding: '0.5rem 1rem',
+            backgroundColor: '#ef4444',
+            color: 'white',
+            border: 'none',
+            borderRadius: '0.375rem',
+            cursor: 'pointer',
+            fontSize: '0.875rem',
+            fontWeight: '500'
+          }}
+          onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#dc2626'}
+          onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#ef4444'}
+        >
+          Sign Out
+        </button>
+      </div>
+      
+      {/* Main Content */}
       <div style={styles.content}>
         <div style={styles.card}>
           <h1 style={styles.title}>P&L Calendar</h1>
