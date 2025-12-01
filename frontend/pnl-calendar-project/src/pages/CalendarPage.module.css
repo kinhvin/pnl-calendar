@@ -1,0 +1,25 @@
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.loadingContainer,
+.errorContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: calc(100vh - 200px);
+  font-size: 1.125rem;
+}
+
+.loadingContainer {
+  color: #6b7280;
+}
+
+.errorContainer {
+  color: #dc2626;
+}
+
+.section {
+  margin-bottom: 2rem;
+}

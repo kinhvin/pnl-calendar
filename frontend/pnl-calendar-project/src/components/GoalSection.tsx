@@ -1,6 +1,6 @@
 import React from 'react';
 import type { GoalProgress } from '../types';
-import { styles } from '../styles';
+import styles from './GoalSection.module.css';
 
 interface GoalSectionProps {
   goalProgress: GoalProgress | null;
@@ -15,7 +15,7 @@ interface GoalSectionProps {
   formatCurrency: (amount: number) => string;
 }
 
-const GoalSection: React.FC<GoalSectionProps> = ({
+export const GoalSection: React.FC<GoalSectionProps> = ({
   goalProgress,
   isEditingGoal,
   goalInput,
@@ -29,74 +29,71 @@ const GoalSection: React.FC<GoalSectionProps> = ({
 }) => {
   if (goalProgress || isEditingGoal) {
     return (
-      <div style={styles.goalSection}>
-        <h3 style={styles.goalTitle}>Monthly Goal</h3>
+      <div className={styles.goalSection}>
+        <h3 className={styles.goalTitle}>Monthly Goal</h3>
 
         {isEditingGoal ? (
-          <div style={styles.goalForm}>
+          <div className={styles.goalForm}>
             <input
               type="number"
               value={goalInput}
               onChange={(e) => onGoalInputChange(e.target.value)}
               placeholder="Enter monthly goal ($)"
-              style={styles.goalInput}
+              className={styles.goalInput}
               autoFocus
             />
-            <div style={styles.goalFormButtons}>
-              <button onClick={onSave} style={styles.goalSaveButton}>
+            <div className={styles.goalFormButtons}>
+              <button onClick={onSave} className={styles.goalSaveButton}>
                 Save
               </button>
-              <button onClick={onCancel} style={styles.goalCancelButton}>
+              <button onClick={onCancel} className={styles.goalCancelButton}>
                 Cancel
               </button>
             </div>
           </div>
         ) : goalProgress ? (
           <div>
-            <div style={styles.goalStats}>
-              <div style={styles.goalStatItem}>
-                <span style={styles.goalLabel}>Goal:</span>
-                <span style={styles.goalValue}>{formatCurrency(goalProgress.goal)}</span>
+            <div className={styles.goalStats}>
+              <div className={styles.goalStatItem}>
+                <span className={styles.goalLabel}>Goal:</span>
+                <span className={styles.goalValue}>{formatCurrency(goalProgress.goal)}</span>
               </div>
-              <div style={styles.goalStatItem}>
-                <span style={styles.goalLabel}>Current:</span>
+              <div className={styles.goalStatItem}>
+                <span className={styles.goalLabel}>Current:</span>
                 <span
-                  style={{
-                    ...styles.goalValue,
-                    color: goalProgress.current >= 0 ? '#16a34a' : '#dc2626',
-                  }}
+                  className={styles.goalValue}
+                  style={{ color: goalProgress.current >= 0 ? '#16a34a' : '#dc2626' }}
                 >
                   {formatCurrency(goalProgress.current)}
                 </span>
               </div>
-              <div style={styles.goalStatItem}>
-                <span style={styles.goalLabel}>Remaining:</span>
-                <span style={styles.goalValue}>
+              <div className={styles.goalStatItem}>
+                <span className={styles.goalLabel}>Remaining:</span>
+                <span className={styles.goalValue}>
                   {formatCurrency(Math.abs(goalProgress.remaining))}
                 </span>
               </div>
             </div>
 
-            <div style={styles.progressBarContainer}>
+            <div className={styles.progressBarContainer}>
               <div
+                className={styles.progressBar}
                 style={{
-                  ...styles.progressBar,
                   width: `${goalProgress.percentage}%`,
-                  backgroundColor:
-                    goalProgress.percentage >= 100 ? '#16a34a' : '#3b82f6',
+                  backgroundColor: goalProgress.percentage >= 100 ? '#16a34a' : '#3b82f6',
                 }}
               />
             </div>
 
-            <div style={styles.progressText}>
+            <div className={styles.progressText}>
               {goalProgress.percentage.toFixed(1)}% of goal achieved
             </div>
 
-            <div style={styles.goalActions}>
-              <button onClick={onEdit} style={styles.editGoalButton}>
+            <div className={styles.goalActions}>
+              <button onClick={onEdit} className={styles.editGoalButton}>
                 Edit Goal
               </button>
-              <button onClick={onClear} style={styles.clearGoalButton}>
+              <button onClick={onClear} className={styles.clearGoalButton}>
                 Clear Goal
               </button>
             </div>
@@ -107,12 +104,8 @@ const GoalSection: React.FC<GoalSectionProps> = ({
   }
 
   return (
-    <button onClick={onStartSetGoal} style={styles.setGoalButton}>
+    <button onClick={onStartSetGoal} className={styles.setGoalButton}>
       Set Monthly Goal
     </button>
   );
 };
-
-export default GoalSection;
-
-

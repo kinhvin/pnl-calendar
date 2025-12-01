@@ -1,0 +1,35 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+}
+
+.navButton {
+  padding: 0.5rem;
+  border: 1px solid #e5e7eb;
+  background-color: transparent;
+  cursor: pointer;
+  border-radius: 0.375rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s, border-color 0.2s, transform 0.1s;
+  color: #374151;
+}
+
+.navButton:hover {
+  background-color: #f3f4f6;
+  border-color: #d1d5db;
+}
+
+.navButton:active {
+  transform: scale(0.95);
+}
+
+.monthTitle {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #111827;
+}
