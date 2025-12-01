@@ -1,12 +1,23 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { signIn, signUp } from '../lib/auth'
+import { useAuth } from '../contexts/AuthContext'
 
 export function Auth() {
+    const { user } = useAuth()
+    const navigate = useNavigate()
     const [loading, setLoading] = useState(false)
     const [isSignUp, setIsSignUp] = useState(false)
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [message, setMessage] = useState('')
+
+    // Redirect to calendar if user is already authenticated
+    useEffect(() => {
+        if (user) {
+            navigate('/calendar', { replace: true })
+        }
+    }, [user, navigate])
 
     // Password validation checks
     const passwordChecks = {

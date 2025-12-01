@@ -16,10 +16,13 @@ export function ProtectedRoute({ children }: ProtectedRouteProps) {
                 justifyContent: 'center',
                 alignItems: 'center',
                 height: '100vh',
-            }}>
-                <div>Loading...</div>
+                fontSize: '1.5rem',
+                color: '#6b7280',
+            }}
+            >
+                Loading...
             </div>
-        )
+        );
     }
 
     // Not logged in - redirect to login page

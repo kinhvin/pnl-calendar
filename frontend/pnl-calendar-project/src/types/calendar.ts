@@ -1,4 +1,5 @@
 export interface DayData {
+  id?: string;
   date: number;
   pnl: number;
   trades?: number;
@@ -23,5 +24,3 @@ export interface MonthlyStats {
   totalTrades: number;
   tradingDays: number;
 }
-
-

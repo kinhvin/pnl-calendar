@@ -1,0 +1,185 @@
+.goalSection {
+  background-color: #f0f9ff;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 24px;
+  border: 2px solid #3b82f6;
+}
+
+.goalTitle {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1f2937;
+  margin-top: 0;
+  margin-bottom: 16px;
+}
+
+.setGoalButton {
+  width: 100%;
+  padding: 16px;
+  background-color: #3b82f6;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-bottom: 24px;
+  transition: background-color 0.2s, transform 0.1s;
+}
+
+.setGoalButton:hover {
+  background-color: #2563eb;
+}
+
+.setGoalButton:active {
+  transform: scale(0.98);
+}
+
+.goalForm {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.goalInput {
+  padding: 12px;
+  font-size: 16px;
+  border: 2px solid #3b82f6;
+  border-radius: 6px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.goalInput:focus {
+  border-color: #1d4ed8;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.goalFormButtons {
+  display: flex;
+  gap: 8px;
+}
+
+.goalSaveButton,
+.goalCancelButton {
+  flex: 1;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.1s;
+}
+
+.goalSaveButton {
+  background-color: #16a34a;
+  color: #ffffff;
+}
+
+.goalSaveButton:hover {
+  background-color: #15803d;
+}
+
+.goalCancelButton {
+  background-color: #6b7280;
+  color: #ffffff;
+}
+
+.goalCancelButton:hover {
+  background-color: #4b5563;
+}
+
+.goalSaveButton:active,
+.goalCancelButton:active {
+  transform: scale(0.98);
+}
+
+.goalStats {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.goalStatItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.goalLabel {
+  font-size: 12px;
+  color: #6b7280;
+  margin-bottom: 4px;
+}
+
+.goalValue {
+  font-size: 18px;
+  font-weight: bold;
+  color: #1f2937;
+}
+
+.progressBarContainer {
+  width: 100%;
+  height: 24px;
+  background-color: #e5e7eb;
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+
+.progressBar {
+  height: 100%;
+  transition: width 0.3s ease, background-color 0.3s ease;
+  border-radius: 12px;
+}
+
+.progressText {
+  text-align: center;
+  font-size: 14px;
+  color: #4b5563;
+  margin-bottom: 16px;
+}
+
+.goalActions {
+  display: flex;
+  gap: 8px;
+}
+
+.editGoalButton,
+.clearGoalButton {
+  flex: 1;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.1s;
+}
+
+.editGoalButton {
+  background-color: #3b82f6;
+  color: #ffffff;
+}
+
+.editGoalButton:hover {
+  background-color: #2563eb;
+}
+
+.clearGoalButton {
+  background-color: #dc2626;
+  color: #ffffff;
+}
+
+.clearGoalButton:hover {
+  background-color: #b12626;
+}
+
+.editGoalButton:active,
+.clearGoalButton:active {
+  transform: scale(0.98);
+}

@@ -1,6 +1,6 @@
 import React from 'react';
 import type { TradeForm } from '../types';
-import { styles } from '../styles';
+import styles from './TradeModal.module.css';
 
 interface TradeModalProps {
   selectedDay: string;
@@ -12,7 +12,7 @@ interface TradeModalProps {
   hasExistingData: boolean;
 }
 
-const TradeModal: React.FC<TradeModalProps> = ({
+export const TradeModal: React.FC<TradeModalProps> = ({
   selectedDay,
   formData,
   onFormChange,
@@ -22,42 +22,42 @@ const TradeModal: React.FC<TradeModalProps> = ({
   hasExistingData,
 }) => {
   return (
-    <div style={styles.modalOverlay} onClick={onClose}>
-      <div style={styles.modal} onClick={(e) => e.stopPropagation()}>
-        <h3 style={styles.modalTitle}>Add/Edit Trade for {selectedDay}</h3>
+    <div className={styles.modalOverlay} onClick={onClose}>
+      <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
+        <h3 className={styles.modalTitle}>Add/Edit Trade for {selectedDay}</h3>
         <form onSubmit={onSubmit}>
-          <div style={styles.formGroup}>
-            <label style={styles.label}>PnL ($)</label>
+          <div className={styles.formGroup}>
+            <label className={styles.label}>P&L ($)</label>
             <input
               type="number"
               step="0.01"
               value={formData.pnl}
               onChange={(e) => onFormChange('pnl', e.target.value)}
-              style={styles.input}
+              className={styles.input}
               placeholder="Enter profit or loss (use negative for loss)"
               required
             />
           </div>
-          <div style={styles.formGroup}>
-            <label style={styles.label}>Number of Trades</label>
+          <div className={styles.formGroup}>
+            <label className={styles.label}>Number of Trades</label>
             <input
               type="number"
               value={formData.trades}
               onChange={(e) => onFormChange('trades', e.target.value)}
-              style={styles.input}
+              className={styles.input}
               placeholder="Enter number of trades"
             />
           </div>
-          <div style={styles.modalButtons}>
-            <button type="submit" style={styles.submitButton}>
+          <div className={styles.modalButtons}>
+            <button type="submit" className={styles.submitButton}>
               Save
             </button>
             {hasExistingData && (
-              <button type="button" onClick={onDelete} style={styles.deleteButton}>
+              <button type="button" onClick={onDelete} className={styles.deleteButton}>
                 Delete
               </button>
             )}
-            <button type="button" onClick={onClose} style={styles.cancelButton}>
+            <button type="button" onClick={onClose} className={styles.cancelButton}>
               Cancel
             </button>
           </div>
@@ -66,7 +66,4 @@ const TradeModal: React.FC<TradeModalProps> = ({
     </div>
   );
 };
-
-export default TradeModal;
-
 

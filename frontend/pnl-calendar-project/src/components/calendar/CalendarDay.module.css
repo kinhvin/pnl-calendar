@@ -1,0 +1,60 @@
+.dayCell {
+  padding: 0.75rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  min-height: 100px;
+  background-color: white;
+  transition: all 0.2s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.dayCell:hover {
+  border-color: #9ca3af;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  transform: translateY(-1px);
+}
+
+.dayCell.today {
+  border: 2px solid #3b82f6;
+  box-shadow: 0 0 0 1px #3b82f6;
+}
+
+.dayCell.today:hover {
+  border-color: #3b82f6;
+}
+
+.dayCell.profit {
+  background-color: #dcfce7;
+}
+
+.dayCell.loss {
+  background-color: #fee2e2;
+}
+
+.dayNumber {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+.dayContent {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.pnlValue {
+  font-size: 0.875rem;
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+}
+
+.tradesText {
+  font-size: 0.75rem;
+  margin-bottom: 1rem;
+  color: #6b7280;
+}
