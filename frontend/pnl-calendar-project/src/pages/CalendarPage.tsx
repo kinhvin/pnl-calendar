@@ -82,7 +82,8 @@ export function CalendarPage() {
     if (!selectedDay || !user) return;
 
     const pnlValue = parseFloat(formData.pnl);
-    const tradesValue = parseInt(formData.trades) || 0;
+    // const tradesValue = parseInt(formData.trades) || 0;
+    const tradesValue = formData.trades ? parseInt(formData.trades) : undefined;
 
     if (isNaN(pnlValue)) return;
 
@@ -157,7 +158,9 @@ export function CalendarPage() {
       totalPnL += entry.pnl;
       if (entry.pnl > 0) winningDays++;
       if (entry.pnl < 0) losingDays++;
-      totalTrades += entry.trades || 0;
+      if (entry.trades != null) {
+        totalTrades += entry.trades;
+      }
     });
 
     return {

@@ -41,7 +41,7 @@ export function CalendarDay({ day, data, isToday, onClick }: CalendarDayProps) {
                     >
                         {formatCurrency(data.pnl)}
                     </div>
-                    {data.trades && data.trades > 0 && (
+                    {data.trades != null && data.trades > 0 && (
                         <div className={styles.tradesText}>
                             {data.trades} trade{data.trades !== 1 ? 's' : ''}
                         </div>

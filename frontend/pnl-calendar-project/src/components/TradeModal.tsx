@@ -42,10 +42,11 @@ export const TradeModal: React.FC<TradeModalProps> = ({
             <label className={styles.label}>Number of Trades</label>
             <input
               type="number"
+              min="0"
               value={formData.trades}
               onChange={(e) => onFormChange('trades', e.target.value)}
               className={styles.input}
-              placeholder="Enter number of trades"
+              placeholder="Enter number of trades (leave blank if unknown)"
             />
           </div>
           <div className={styles.modalButtons}>
