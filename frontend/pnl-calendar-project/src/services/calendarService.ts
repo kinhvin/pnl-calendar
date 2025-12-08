@@ -3,11 +3,11 @@ import { supabase } from '../lib/supabase';
 /* 
 * Fetches all PnL entries for a specific user
 */
-export async function fetchPNLEntries(id: string) {
+export async function fetchPNLEntries(userId: string) {
     const { data, error } = await supabase
         .from('pnl_entries')
         .select('*')
-        .eq('id', id)
+        .eq('user_id', userId)
         .order('date', { ascending: false });
 
     if (error) throw error;
