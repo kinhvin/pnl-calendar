@@ -27,7 +27,7 @@ export function useCalendarData(year: number, month: number) {
                 
                 const entries = await fetchPNLEntriesByMonth(user.id, year, month);
                 
-                // Transform entries into date-keyes object
+                // Transform entries into date-keyed object
                 const entriesMap: Record<string, DayData> = {};
                 entries.forEach((entry: any) => {
                     entriesMap[entry.date] = {
