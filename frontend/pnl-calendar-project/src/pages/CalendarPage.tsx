@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { CalendarHeader, CalendarGrid, Legend } from '../components/calendar';
 import { MonthlyStatsSection, GoalSection, TradeModal } from '../components';
+import { PnLChart } from '../components/PnLChart';
 import { useCalendarData } from '../hooks';
 import { useAuth } from '../contexts/AuthContext';
 import { createPNLEntry, updatePNLEntry, deletePNLEntry, fetchMonthlyGoal, upsertMonthlyGoal, deleteMonthlyGoal } from '../services/calendarService';
@@ -10,6 +11,17 @@ import styles from './CalendarPage.module.css';
 export function CalendarPage() {
   const { user } = useAuth();
   const [currentDate, setCurrentDate] = useState(new Date());
+  
+  /**
+   * 🎯 View State
+   * 
+   * This state tracks which view the user is currently seeing:
+   * - 'calendar': Shows the traditional calendar grid
+   * - 'chart': Shows the PnL performance chart
+   * 
+   * We use TypeScript's union type to ensure only valid values can be set
+   */
+  const [activeView, setActiveView] = useState<'calendar' | 'chart'>('calendar');
   
   const { data, setData, loading, error } = useCalendarData(
     currentDate.getFullYear(),
@@ -273,6 +285,31 @@ export function CalendarPage() {
         onNextMonth={nextMonth}
       />
 
+      {/* 
+        🎛️ View Toggle Buttons
+        
+        These buttons let users switch between calendar and chart views.
+        
+        Key concepts:
+        - Conditional styling: activeView === 'calendar' determines which button looks "active"
+        - Event handlers: onClick updates the activeView state
+        - Accessibility: Clear labels and visual feedback
+      */}
+      <div className={styles.viewToggle}>
+        <button
+          className={`${styles.toggleButton} ${activeView === 'calendar' ? styles.active : ''}`}
+          onClick={() => setActiveView('calendar')}
+        >
+          📅 Calendar View
+        </button>
+        <button
+          className={`${styles.toggleButton} ${activeView === 'chart' ? styles.active : ''}`}
+          onClick={() => setActiveView('chart')}
+        >
+          📊 Chart View
+        </button>
+      </div>
+
       {/* Monthly Statistics Section */}
       <div className={styles.section}>
         <MonthlyStatsSection stats={stats} formatCurrency={formatCurrency} />
@@ -294,15 +331,38 @@ export function CalendarPage() {
         />
       </div>
 
-      {/* Legend */}
-      <Legend />
+      {/* 
+        🔀 Conditional Rendering
+        
+        This is a key React pattern:
+        - Only ONE view is shown at a time
+        - Based on activeView state, we render different components
+        - The ternary operator (condition ? ifTrue : ifFalse) controls this
+        
+        Why this works:
+        - When activeView changes, React re-renders this component
+        - The condition is evaluated again
+        - The appropriate JSX is returned
+      */}
+      {activeView === 'calendar' ? (
+        // 📅 Calendar View
+        <>
+          {/* Legend */}
+          <Legend />
 
-      {/* Calendar Grid */}
-      <CalendarGrid
-        currentDate={currentDate}
-        data={data}
-        onDayClick={handleDayClick}
-      />
+          {/* Calendar Grid */}
+          <CalendarGrid
+            currentDate={currentDate}
+            data={data}
+            onDayClick={handleDayClick}
+          />
+        </>
+      ) : (
+        // 📊 Chart View
+        <div className={styles.chartContainer}>
+          <PnLChart data={data} currentDate={currentDate} />
+        </div>
+      )}
 
       {/* Trade Modal */}
       {selectedDay && (

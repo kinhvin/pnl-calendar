@@ -4,6 +4,7 @@ export * from './MonthlyStats';
 export * from './GoalSection';
 export * from './TradeModal';
 export * from './ProtectedRoute';
+export * from './PnLChart';
 
 // Also re-export from subdirectories
 export * from './calendar';
