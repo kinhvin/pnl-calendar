@@ -1,0 +1,42 @@
+<!-- 
+  Custom PnL Calendar Favicon
+  
+  This SVG creates a simple chart icon with an upward trend line.
+  
+  Key concepts:
+  - viewBox: Defines the coordinate system (0 0 32 32 = 32x32 grid)
+  - SVG scales infinitely without losing quality
+  - Colors use hex codes for consistency
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Background circle -->
+  <circle cx="16" cy="16" r="16" fill="#2563eb"/>
+  
+  <!-- Chart bars (representing calendar days) -->
+  <rect x="6" y="18" width="3" height="8" fill="#ffffff" rx="1"/>
+  <rect x="11" y="14" width="3" height="12" fill="#ffffff" rx="1"/>
+  <rect x="16" y="10" width="3" height="16" fill="#ffffff" rx="1"/>
+  <rect x="21" y="8" width="3" height="18" fill="#ffffff" rx="1"/>
+  
+  <!-- Trend line overlay -->
+  <polyline 
+    points="7.5, 19 12.5, 15 17.5, 22 22.5, 10" 
+    stroke="#10b981" 
+    stroke-width="2" 
+    fill="none" 
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  />
+  
+  <!-- Proper arrow head (filled triangle) -->
+  <!-- 
+    Arrow TIP moved up: (22.5, 7) - moved up 3 units from original (10)
+    Rotated 280 degrees to point in the right direction
+    All Y coordinates reduced by 3: 10→7, 12→9, 7→4
+  -->
+  <polygon 
+  points="22.5, 7 19, 9 20, 4" 
+  fill="#10b981"
+  transform="rotate(275, 23, 7)"
+  />
+</svg>
