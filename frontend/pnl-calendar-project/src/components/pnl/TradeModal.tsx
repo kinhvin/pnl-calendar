@@ -1,5 +1,5 @@
 import React from 'react';
-import type { TradeForm } from '../types';
+import type { TradeForm } from '../../types';
 import styles from './TradeModal.module.css';
 
 interface TradeModalProps {
