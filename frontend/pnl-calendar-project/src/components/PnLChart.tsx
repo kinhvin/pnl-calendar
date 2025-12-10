@@ -35,7 +35,6 @@ interface PnLChartProps {
   // This is the same data structure from your calendar
   // The key is the date string (YYYY-MM-DD), value is the day's data
   data: Record<string, DayData>;
-  currentDate: Date;
 }
 
 // 🎨 Chart configuration - defines colors and labels for the chart
@@ -50,7 +49,7 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-export function PnLChart({ data, currentDate }: PnLChartProps) {
+export function PnLChart({ data }: PnLChartProps) {
   // 📦 State: Track which time range the user wants to see
   const [timeRange, setTimeRange] = useState<"7d" | "30d" | "all">("30d");
 
@@ -94,17 +93,21 @@ export function PnLChart({ data, currentDate }: PnLChartProps) {
   const filteredData = useMemo(() => {
     if (timeRange === "all") return chartData;
 
-    // Calculate the cutoff date
+    // Get the most recent date in the data (not currentDate)
+    // This ensures we show the last N days of actual trading data
+    if (chartData.length === 0) return [];
+    
+    const mostRecentDate = new Date(chartData[chartData.length - 1].date);
     const daysToShow = timeRange === "7d" ? 7 : 30;
-    const cutoffDate = new Date(currentDate);
-    cutoffDate.setDate(cutoffDate.getDate() - daysToShow);
+    const cutoffDate = new Date(mostRecentDate);
+    cutoffDate.setDate(cutoffDate.getDate() - daysToShow + 1); // +1 to include the start day
 
     // Filter to only show recent data
     return chartData.filter((item) => {
       const itemDate = new Date(item.date);
       return itemDate >= cutoffDate;
     });
-  }, [chartData, timeRange, currentDate]);
+  }, [chartData, timeRange]);
 
   /**
    * 📊 Calculate statistics for the header
@@ -123,6 +126,14 @@ export function PnLChart({ data, currentDate }: PnLChartProps) {
     return { totalPnL, winRate, bestDay, worstDay };
   }, [filteredData]);
 
+  /**
+   * 🎨 Dynamic color based on PnL performance
+   */
+  const chartColor = useMemo(() => {
+    const finalPnL = stats.totalPnL;
+    return finalPnL >= 0 ? 'hsl(142, 76%, 36%)' : 'hsl(0, 84%, 60%)';
+  }, [stats.totalPnL]);
+
   // 💰 Helper function to format currency
   const formatCurrency = (value: number) => {
     const prefix = value >= 0 ? "+$" : "-$";
@@ -132,19 +143,21 @@ export function PnLChart({ data, currentDate }: PnLChartProps) {
   return (
     <Card>
       {/* 📋 Header with title and time range selector */}
-      <CardHeader className="flex items-center gap-2 space-y-0 border-b py-5 sm:flex-row">
-        <div className="grid flex-1 gap-1">
+      <CardHeader className="flex flex-col gap-4 space-y-0 border-b py-5 sm:flex-row sm:items-center">
+        <div className="flex-1 space-y-1">
           <CardTitle>P&L Performance Chart</CardTitle>
-          <CardDescription>
-            Cumulative: {formatCurrency(stats.totalPnL)} | Win Rate:{" "}
-            {stats.winRate.toFixed(1)}%
+          <CardDescription className="flex flex-wrap gap-x-4 gap-y-1">
+            <span>Cumulative: <span className="font-medium">{formatCurrency(stats.totalPnL)}</span></span>
+            <span>Win Rate: <span className="font-medium">{stats.winRate.toFixed(1)}%</span></span>
+            <span>Best Day: <span className="font-medium">{formatCurrency(stats.bestDay)}</span></span>
+            <span>Worst Day: <span className="font-medium">{formatCurrency(stats.worstDay)}</span></span>
           </CardDescription>
         </div>
         
         {/* Time range dropdown */}
         <Select value={timeRange} onValueChange={(value: any) => setTimeRange(value)}>
           <SelectTrigger
-            className="w-[160px] rounded-lg"
+            className="w-[160px] rounded-lg sm:ml-auto"
             aria-label="Select time range"
           >
             <SelectValue placeholder="Last 30 days" />
@@ -181,12 +194,12 @@ export function PnLChart({ data, currentDate }: PnLChartProps) {
                 <linearGradient id="fillCumulative" x1="0" y1="0" x2="0" y2="1">
                   <stop
                     offset="5%"
-                    stopColor="var(--color-cumulativePnL)"
+                    stopColor={chartColor}
                     stopOpacity={0.8}
                   />
                   <stop
                     offset="95%"
-                    stopColor="var(--color-cumulativePnL)"
+                    stopColor={chartColor}
                     stopOpacity={0.1}
                   />
                 </linearGradient>
@@ -216,7 +229,7 @@ export function PnLChart({ data, currentDate }: PnLChartProps) {
                 tickLine={false}
                 axisLine={false}
                 tickMargin={8}
-                tickFormatter={(value) => `$${value}`}
+                tickFormatter={(value) => value >= 0 ? `$${value}` : `-$${Math.abs(value)}`}
               />
 
               {/* Zero line - helps visualize profit vs loss */}
@@ -283,7 +296,7 @@ export function PnLChart({ data, currentDate }: PnLChartProps) {
                 dataKey="cumulativePnL"
                 type="monotone"
                 fill="url(#fillCumulative)"
-                stroke="var(--color-cumulativePnL)"
+                stroke={chartColor}
                 strokeWidth={2}
               />
             </AreaChart>
