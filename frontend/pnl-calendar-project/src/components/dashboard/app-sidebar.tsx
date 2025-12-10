@@ -8,13 +8,13 @@ import {
   FileCodeIcon,
   FileIcon,
   FileTextIcon,
-  FolderIcon,
+  // FolderIcon,
   HelpCircleIcon,
   LayoutDashboardIcon,
-  ListIcon,
+  // ListIcon,
   SearchIcon,
   SettingsIcon,
-  UsersIcon,
+  // UsersIcon,
 } from "lucide-react"
 
 import { NavDocuments } from "@/components/dashboard/nav-documents"
