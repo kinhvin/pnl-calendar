@@ -1,6 +1,43 @@
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
+/* Layout container - styling handled by App.tsx */
+
+/* 
+  🧭 Navigation Bar
+  
+  Top-level navigation for switching between Calendar and Dashboard views
+*/
+.navBar {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 1rem 0;
+  gap: 1rem;
+  border-bottom: 1px solid #e5e7eb;
+  margin-bottom: 1.5rem;
+}
+
+.navLinks {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.navLink {
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border: 1px solid #d1d5db;
+  background-color: white;
+  color: #374151;
+  cursor: pointer;
+  border-radius: 0.375rem;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.navLink:hover {
+  background-color: #f3f4f6;
+  border-color: #9ca3af;
+  color: #1f2937;
 }
 
 .loadingContainer,
@@ -25,6 +62,30 @@
 }
 
 /* 
+  🎛️ Controls Header
+  
+  New container that groups the view toggles and goal header horizontally.
+  
+  Key concepts:
+  - Flexbox with space-between: Pushes children to opposite ends
+  - align-items: center: Vertically aligns children
+  - flex-wrap: wrap: Allows wrapping on small screens
+  - gap: Provides consistent spacing between items
+  
+  Layout pattern:
+  [View Toggles]                    [Goal Header]
+  ←------- space-between pushes apart -------→
+*/
+.controlsHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  margin: 1.5rem 0;
+  flex-wrap: wrap;
+}
+
+/* 
   🎛️ View Toggle Buttons Styling
   
   These styles create a modern toggle button group.
@@ -34,11 +95,11 @@
   - Border radius: Rounds first/last buttons for a pill shape
   - Transitions: Smooth color changes on hover/active
   - Active state: Visual feedback for selected view
+  - width: fit-content: Only takes up space needed for content
 */
 .viewToggle {
   display: flex;
   gap: 0.25rem;
-  margin: 1.5rem 0;
   border: 1px solid #e5e7eb;
   border-radius: 0.5rem;
   padding: 0.25rem;
@@ -73,7 +134,15 @@
   border: 1px solid #d1d5db;
 }
 
-/* Focus state - no outline */
+/* 
+  ♻️ Accessibility: Focus States
+  
+  IMPORTANT: We're removing the default outline but should add
+  a custom focus indicator for keyboard navigation accessibility.
+  
+  Note: This is currently removing ALL button outlines, which
+  could be improved by adding custom focus styles.
+*/
 button:focus {
   outline: none;
 }
@@ -81,4 +150,32 @@ button:focus {
 /* Chart container - adds spacing around the chart */
 .chartContainer {
   margin-top: 2rem;
+}
+
+/* 
+  📱 Responsive Design for Controls Header
+  
+  On mobile (screens <= 768px), we adjust the layout:
+  - Stack controls vertically instead of horizontally
+  - Center-align everything
+  - Full width for better touch targets
+  
+  Media queries are CSS's way of applying styles conditionally
+  based on screen size or device characteristics.
+*/
+@media (max-width: 768px) {
+  .controlsHeader {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.75rem;
+  }
+
+  .viewToggle {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .toggleButton {
+    flex: 1;
+  }
 }

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { signIn, signUp } from '../lib/auth'
-import { useAuth } from '../contexts/AuthContext'
+import { signIn, signUp } from '../../lib/auth'
+import { useAuth } from '../../contexts/AuthContext'
 
 export function Auth() {
     const { user } = useAuth()

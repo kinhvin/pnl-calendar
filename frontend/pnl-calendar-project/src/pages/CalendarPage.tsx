@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { CalendarHeader, CalendarGrid, Legend } from '../components/calendar';
-import { MonthlyStatsSection, GoalSection, TradeModal } from '../components';
-import { PnLChart } from '../components/PnLChart';
+import { MonthlyStatsSection, GoalSection, TradeModal, PnLChart } from '../components/pnl';
 import { useCalendarData } from '../hooks';
 import { useAuth } from '../contexts/AuthContext';
 import { createPNLEntry, updatePNLEntry, deletePNLEntry, fetchMonthlyGoal, upsertMonthlyGoal, deleteMonthlyGoal, fetchPNLEntries } from '../services/calendarService';
@@ -320,7 +319,7 @@ export function CalendarPage() {
   const goalProgress = calculateGoalProgress(stats);
 
   return (
-    <div className={styles.container}>
+    <>
       {/* Calendar Header */}
       <CalendarHeader
         currentDate={currentDate}
@@ -328,16 +327,7 @@ export function CalendarPage() {
         onNextMonth={nextMonth}
       />
 
-      {/* 
-        🎛️ View Toggle Buttons
-        
-        These buttons let users switch between calendar and chart views.
-        
-        Key concepts:
-        - Conditional styling: activeView === 'calendar' determines which button looks "active"
-        - Event handlers: onClick updates the activeView state
-        - Accessibility: Clear labels and visual feedback
-      */}
+      {/* View Toggle Buttons */}
       <div className={styles.viewToggle}>
         <button
           className={`${styles.toggleButton} ${activeView === 'calendar' ? styles.active : ''}`}
@@ -362,7 +352,7 @@ export function CalendarPage() {
 
       {/* Monthly Goal Section - Only show in calendar view */}
       {activeView === 'calendar' && (
-        <div>
+        <div className={styles.section}>
           <GoalSection
             goalProgress={goalProgress}
             isEditingGoal={isEditingGoal}
@@ -425,6 +415,6 @@ export function CalendarPage() {
           hasExistingData={!!data[selectedDay]}
         />
       )}
-    </div>
+    </>
   );
 }
