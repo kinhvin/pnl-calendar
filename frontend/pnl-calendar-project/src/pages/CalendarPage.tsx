@@ -4,7 +4,7 @@ import { MonthlyStatsSection, GoalSection, TradeModal } from '../components';
 import { PnLChart } from '../components/PnLChart';
 import { useCalendarData } from '../hooks';
 import { useAuth } from '../contexts/AuthContext';
-import { createPNLEntry, updatePNLEntry, deletePNLEntry, fetchMonthlyGoal, upsertMonthlyGoal, deleteMonthlyGoal } from '../services/calendarService';
+import { createPNLEntry, updatePNLEntry, deletePNLEntry, fetchMonthlyGoal, upsertMonthlyGoal, deleteMonthlyGoal, fetchPNLEntries } from '../services/calendarService';
 import type { TradeForm, MonthlyStats as MonthlyStatsType, GoalProgress } from '../types';
 import styles from './CalendarPage.module.css';
 
@@ -28,6 +28,9 @@ export function CalendarPage() {
     currentDate.getMonth() + 1
   );
 
+  // Historical data for chart (all time)
+  const [allHistoricalData, setAllHistoricalData] = useState<Record<string, any>>({});
+
   // Form state
   const [selectedDay, setSelectedDay] = useState<string | null>(null);
   const [formData, setFormData] = useState<TradeForm>({ pnl: '', trades: '' });
@@ -36,6 +39,31 @@ export function CalendarPage() {
   const [currentGoal, setCurrentGoal] = useState<number | null>(null);
   const [isEditingGoal, setIsEditingGoal] = useState(false);
   const [goalInput, setGoalInput] = useState('');
+
+  // Load all historical data for chart view
+  useEffect(() => {
+    if (!user?.id) return;
+
+    async function loadAllData() {
+      try {
+        const entries = await fetchPNLEntries(user!.id);
+        const entriesMap: Record<string, any> = {};
+        entries.forEach((entry: any) => {
+          entriesMap[entry.date] = {
+            id: entry.id,
+            date: new Date(entry.date).getDate(),
+            pnl: entry.pnl,
+            trades: entry.trades,
+          };
+        });
+        setAllHistoricalData(entriesMap);
+      } catch (error) {
+        console.error('Error loading historical data:', error);
+      }
+    }
+
+    loadAllData();
+  }, [user]);
 
   // Load monthly goal when month changes
   useEffect(() => {
@@ -116,14 +144,22 @@ export function CalendarPage() {
 
       // Update local state with the saved entry (includes ID from server)
       const dayNumber = parseInt(selectedDay.split('-')[2]);
+      const entryData = {
+        id: savedEntry.id,
+        date: dayNumber,
+        pnl: pnlValue,
+        trades: tradesValue,
+      };
+      
       setData((prev) => ({
         ...prev,
-        [selectedDay]: {
-          id: savedEntry.id,
-          date: dayNumber,
-          pnl: pnlValue,
-          trades: tradesValue,
-        },
+        [selectedDay]: entryData,
+      }));
+      
+      // Also update historical data for chart
+      setAllHistoricalData((prev) => ({
+        ...prev,
+        [selectedDay]: entryData,
       }));
 
       setSelectedDay(null);
@@ -145,6 +181,13 @@ export function CalendarPage() {
       }
 
       setData((prev) => {
+        const newData = { ...prev };
+        delete newData[selectedDay];
+        return newData;
+      });
+      
+      // Also update historical data for chart
+      setAllHistoricalData((prev) => {
         const newData = { ...prev };
         delete newData[selectedDay];
         return newData;
@@ -310,26 +353,30 @@ export function CalendarPage() {
         </button>
       </div>
 
-      {/* Monthly Statistics Section */}
-      <div className={styles.section}>
-        <MonthlyStatsSection stats={stats} formatCurrency={formatCurrency} />
-      </div>
+      {/* Monthly Statistics Section - Only show in calendar view */}
+      {activeView === 'calendar' && (
+        <div className={styles.section}>
+          <MonthlyStatsSection stats={stats} formatCurrency={formatCurrency} />
+        </div>
+      )}
 
-      {/* Monthly Goal Section */}
-      <div>
-        <GoalSection
-          goalProgress={goalProgress}
-          isEditingGoal={isEditingGoal}
-          goalInput={goalInput}
-          onGoalInputChange={setGoalInput}
-          onSave={handleGoalSave}
-          onCancel={handleGoalCancel}
-          onEdit={handleGoalEdit}
-          onClear={handleGoalClear}
-          onStartSetGoal={() => setIsEditingGoal(true)}
-          formatCurrency={formatCurrency}
-        />
-      </div>
+      {/* Monthly Goal Section - Only show in calendar view */}
+      {activeView === 'calendar' && (
+        <div>
+          <GoalSection
+            goalProgress={goalProgress}
+            isEditingGoal={isEditingGoal}
+            goalInput={goalInput}
+            onGoalInputChange={setGoalInput}
+            onSave={handleGoalSave}
+            onCancel={handleGoalCancel}
+            onEdit={handleGoalEdit}
+            onClear={handleGoalClear}
+            onStartSetGoal={() => setIsEditingGoal(true)}
+            formatCurrency={formatCurrency}
+          />
+        </div>
+      )}
 
       {/* 
         🔀 Conditional Rendering
@@ -360,7 +407,7 @@ export function CalendarPage() {
       ) : (
         // 📊 Chart View
         <div className={styles.chartContainer}>
-          <PnLChart data={data} currentDate={currentDate} />
+          <PnLChart data={allHistoricalData} />
         </div>
       )}
 
