@@ -37,7 +37,7 @@
 */
 .viewToggle {
   display: flex;
-  gap: 0;
+  gap: 0.25rem;
   margin: 1.5rem 0;
   border: 1px solid #e5e7eb;
   border-radius: 0.5rem;
@@ -70,6 +70,12 @@
   background-color: white;
   color: #2563eb;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border: 1px solid #d1d5db;
+}
+
+/* Focus state - no outline */
+button:focus {
+  outline: none;
 }
 
 /* Chart container - adds spacing around the chart */

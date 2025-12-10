@@ -64,7 +64,7 @@ export function Auth() {
                 backgroundColor: 'white',
                 padding: '2rem',
                 borderRadius: '0.5rem',
-                boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
+                boxShadow: '0 4px 10px rgba(0,0,0,0.10),  0 -3px 8px rgba(0,0,0,0.05)',
                 width: '100%',
                 maxWidth: '400px'
             }}>
@@ -114,6 +114,7 @@ export function Auth() {
                                 fontSize: '1rem',
                                 outline: 'none',
                                 transition: 'border-color 0.2s',
+                                backgroundColor: '#ffffff',
                                 boxSizing: 'border-box'
                             }}
                             onFocus={(e) => e.target.style.borderColor = '#3b82f6'}
@@ -149,6 +150,7 @@ export function Auth() {
                                 fontSize: '1rem',
                                 outline: 'none',
                                 transition: 'border-color 0.2s',
+                                backgroundColor: '#ffffff',
                                 boxSizing: 'border-box'
                             }}
                             onFocus={(e) => e.target.style.borderColor = '#3b82f6'}
