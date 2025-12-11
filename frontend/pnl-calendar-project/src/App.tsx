@@ -1,7 +1,8 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import { ProtectedRoute } from './components/ProtectedRoute';
-import { AppLayout } from './components/layout/AppLayout';
-import { LoginPage, CalendarPage } from './pages';
+import { ProtectedRoute } from './components/auth';
+import { AppSidebar, SiteHeader } from './components/dashboard';
+import { SidebarProvider, SidebarInset } from './components/ui/sidebar';
+import { LoginPage, CalendarPage, DashboardPage } from './pages';
 
 function App() {
   return (
@@ -10,23 +11,28 @@ function App() {
         {/* Public route */}
         <Route path="/login" element={<LoginPage />} />
 
-        {/* Protected routes */}
+        {/* Protected routes with shared sidebar layout */}
         <Route
-          path="/calendar"
+          path="/*"
           element={
             <ProtectedRoute>
-              <AppLayout>
-                <CalendarPage />
-              </AppLayout>
+              <SidebarProvider>
+                <AppSidebar />
+                <SidebarInset>
+                  <SiteHeader />
+                  <div className="flex-1 overflow-auto p-4 lg:p-6">
+                    <Routes>
+                      <Route path="/calendar" element={<CalendarPage />} />
+                      <Route path="/dashboard" element={<DashboardPage />} />
+                      <Route path="/" element={<Navigate to="/calendar" replace />} />
+                      <Route path="*" element={<Navigate to="/calendar" replace />} />
+                    </Routes>
+                  </div>
+                </SidebarInset>
+              </SidebarProvider>
             </ProtectedRoute>
           }
         />
-
-        {/* Redirect root to calendar */}
-        <Route path="/" element={<Navigate to="/calendar" replace />} />
-
-        {/* 404 catch-all */}
-        <Route path="*" element={<Navigate to="/calendar" replace />} />
       </Routes>
     </BrowserRouter>
   );

@@ -1,5 +1,5 @@
 import React from 'react';
-import type { GoalProgress } from '../types';
+import type { GoalProgress } from '../../types';
 import styles from './GoalSection.module.css';
 
 interface GoalSectionProps {

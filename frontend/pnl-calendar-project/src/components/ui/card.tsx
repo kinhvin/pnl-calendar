@@ -1,23 +1,7 @@
-/**
- * CARD COMPONENT
- * 
- * Purpose: Creates a styled container for content
- * Think of it like a "panel" or "box" that groups related information
- * 
- * Structure:
- * - Card: The main container
- * - CardHeader: Top section (usually title + description)
- * - CardTitle: The heading text
- * - CardDescription: Subtitle or explanation text
- * - CardContent: The main content area
- * - CardFooter: Bottom section (usually buttons/actions)
- */
-
 import * as React from "react"
+
 import { cn } from "@/lib/utils"
 
-// Main Card container
-// The "forwardRef" allows parent components to access the underlying HTML element
 const Card = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
@@ -25,7 +9,7 @@ const Card = React.forwardRef<
   <div
     ref={ref}
     className={cn(
-      "rounded-lg border bg-card text-card-foreground shadow-sm",
+      "rounded-xl border bg-card text-card-foreground shadow",
       className
     )}
     {...props}
@@ -33,7 +17,6 @@ const Card = React.forwardRef<
 ))
 Card.displayName = "Card"
 
-// Card Header - Contains title and description
 const CardHeader = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
@@ -46,23 +29,18 @@ const CardHeader = React.forwardRef<
 ))
 CardHeader.displayName = "CardHeader"
 
-// Card Title - Large heading text
 const CardTitle = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => (
   <div
     ref={ref}
-    className={cn(
-      "text-2xl font-semibold leading-none tracking-tight",
-      className
-    )}
+    className={cn("font-semibold leading-none tracking-tight", className)}
     {...props}
   />
 ))
 CardTitle.displayName = "CardTitle"
 
-// Card Description - Smaller subtitle text
 const CardDescription = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
@@ -75,7 +53,6 @@ const CardDescription = React.forwardRef<
 ))
 CardDescription.displayName = "CardDescription"
 
-// Card Content - Main content area
 const CardContent = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
@@ -84,7 +61,6 @@ const CardContent = React.forwardRef<
 ))
 CardContent.displayName = "CardContent"
 
-// Card Footer - Bottom section
 const CardFooter = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>

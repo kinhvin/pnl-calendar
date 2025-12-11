@@ -19,7 +19,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useState, useMemo } from "react";
-import type { DayData } from "../types";
+import type { DayData } from "../../types";
 
 /**
  * 📊 PnL Chart Component

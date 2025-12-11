@@ -1,6 +1,6 @@
 import React from 'react';
 import { TrendingUp, TrendingDown } from 'lucide-react';
-import type { MonthlyStats } from '../types';
+import type { MonthlyStats } from '../../types';
 import styles from './MonthlyStats.module.css';
 
 interface MonthlyStatsProps {
