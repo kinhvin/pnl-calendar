@@ -18,7 +18,10 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     if (savedTheme === 'dark' || savedTheme === 'light') {
       return savedTheme;
     }
-    // Default to light mode
+    // Detect system preference
+    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      return 'dark';
+    }
     return 'light';
   });
 
