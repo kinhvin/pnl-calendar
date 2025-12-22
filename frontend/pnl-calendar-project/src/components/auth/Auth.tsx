@@ -51,53 +51,23 @@ export function Auth() {
     }
 
     return (
-        <div style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            minHeight: '100vh',
-            minWidth: '100vw',
-            backgroundColor: '#f9fafb',
-            padding: '1rem'
-        }}>
-            <div style={{
-                backgroundColor: 'white',
-                padding: '2rem',
-                borderRadius: '0.5rem',
-                boxShadow: '0 4px 10px rgba(0,0,0,0.10),  0 -3px 8px rgba(0,0,0,0.05)',
-                width: '100%',
-                maxWidth: '400px'
-            }}>
+        <div className="flex justify-center items-center min-h-screen min-w-full bg-background p-4">
+            <div className="bg-card border border-border p-8 rounded-lg shadow-lg w-full max-w-md">
                 {/* Header */}
-                <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
-                    <h1 style={{
-                        fontSize: '1.875rem',
-                        fontWeight: '700',
-                        color: '#111827',
-                        marginBottom: '0.5rem'
-                    }}>
+                <div className="text-center mb-8">
+                    <h1 className="text-3xl font-bold text-foreground mb-2">
                         P&L Calendar
                     </h1>
-                    <h2 style={{
-                        fontSize: '1.5rem',
-                        fontWeight: '600',
-                        color: '#374151'
-                    }}>
+                    <h2 className="text-2xl font-semibold text-muted-foreground">
                         {isSignUp ? 'Create Account' : 'Welcome Back'}
                     </h2>
                 </div>
 
                 {/* Form */}
-                <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                <form onSubmit={handleSubmit} className="flex flex-col gap-4">
                     {/* Email Input */}
                     <div>
-                        <label style={{
-                            display: 'block',
-                            fontSize: '0.875rem',
-                            fontWeight: '500',
-                            color: '#374151',
-                            marginBottom: '0.5rem'
-                        }}>
+                        <label className="block text-sm font-medium text-foreground mb-2">
                             Email
                         </label>
                         <input
@@ -106,31 +76,13 @@ export function Auth() {
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             required
-                            style={{
-                                width: '100%',
-                                padding: '0.75rem',
-                                border: '1px solid #d1d5db',
-                                borderRadius: '0.375rem',
-                                fontSize: '1rem',
-                                outline: 'none',
-                                transition: 'border-color 0.2s',
-                                backgroundColor: '#ffffff',
-                                boxSizing: 'border-box'
-                            }}
-                            onFocus={(e) => e.target.style.borderColor = '#3b82f6'}
-                            onBlur={(e) => e.target.style.borderColor = '#d1d5db'}
+                            className="w-full p-3 border border-input rounded-md text-base bg-background text-foreground outline-none transition-colors focus:border-primary focus:ring-2 focus:ring-primary/20"
                         />
                     </div>
 
                     {/* Password Input */}
                     <div>
-                        <label style={{
-                            display: 'block',
-                            fontSize: '0.875rem',
-                            fontWeight: '500',
-                            color: '#374151',
-                            marginBottom: '0.5rem'
-                        }}>
+                        <label className="block text-sm font-medium text-foreground mb-2">
                             Password
                         </label>
                         <input
@@ -140,36 +92,18 @@ export function Auth() {
                             onChange={(e) => setPassword(e.target.value)}
                             required
                             minLength={8}
-                            pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"  // Require: number, lowercase, uppercase
+                            pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
                             title="Must contain at least one number, one uppercase and lowercase letter, and be at least 8 characters"
-                            style={{
-                                width: '100%',
-                                padding: '0.75rem',
-                                border: '1px solid #d1d5db',
-                                borderRadius: '0.375rem',
-                                fontSize: '1rem',
-                                outline: 'none',
-                                transition: 'border-color 0.2s',
-                                backgroundColor: '#ffffff',
-                                boxSizing: 'border-box'
-                            }}
-                            onFocus={(e) => e.target.style.borderColor = '#3b82f6'}
-                            onBlur={(e) => e.target.style.borderColor = '#d1d5db'}
+                            className="w-full p-3 border border-input rounded-md text-base bg-background text-foreground outline-none transition-colors focus:border-primary focus:ring-2 focus:ring-primary/20"
                         />
 
                         {/* Password Requirements - Only show when signing up and typing */}
                         {isSignUp && password.length > 0 && (
-                            <div style={{
-                                marginTop: '0.5rem',
-                                padding: '0.75rem',
-                                backgroundColor: '#f9fafb',
-                                borderRadius: '0.375rem',
-                                fontSize: '0.75rem'
-                            }}>
-                                <div style={{ fontWeight: '600', marginBottom: '0.5rem', color: '#374151' }}>
+                            <div className="mt-2 p-3 bg-muted rounded-md text-xs">
+                                <div className="font-semibold mb-2 text-foreground">
                                     Password Requirements:
                                 </div>
-                                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
+                                <div className="flex flex-col gap-1">
                                     <PasswordRequirement 
                                         met={passwordChecks.length} 
                                         text="At least 8 characters" 
@@ -195,27 +129,7 @@ export function Auth() {
                     <button
                         type="submit"
                         disabled={loading || (isSignUp && !isPasswordValid)}
-                        style={{
-                            width: '100%',
-                            padding: '0.75rem',
-                            backgroundColor: loading || (isSignUp && !isPasswordValid) ? '#9ca3af' : '#3b82f6',
-                            color: 'white',
-                            border: 'none',
-                            borderRadius: '0.375rem',
-                            fontSize: '1rem',
-                            fontWeight: '600',
-                            cursor: loading || (isSignUp && !isPasswordValid) ? 'not-allowed' : 'pointer',
-                            transition: 'background-color 0.2s',
-                            marginTop: '0.5rem'
-                        }}
-                        onMouseOver={(e) => {
-                            if (!loading && !(isSignUp && !isPasswordValid)) 
-                                e.currentTarget.style.backgroundColor = '#2563eb'
-                        }}
-                        onMouseOut={(e) => {
-                            if (!loading && !(isSignUp && !isPasswordValid)) 
-                                e.currentTarget.style.backgroundColor = '#3b82f6'
-                        }}
+                        className="w-full p-3 bg-primary text-primary-foreground border-none rounded-md text-base font-semibold cursor-pointer transition-colors mt-2 hover:bg-primary/90 disabled:bg-muted disabled:cursor-not-allowed disabled:text-muted-foreground"
                     >
                         {loading ? 'Loading...' : isSignUp ? 'Sign Up' : 'Sign In'}
                     </button>
@@ -223,38 +137,24 @@ export function Auth() {
 
                 {/* Message */}
                 {message && (
-                    <div style={{
-                        marginTop: '1rem',
-                        padding: '0.75rem',
-                        borderRadius: '0.375rem',
-                        backgroundColor: message.includes('error') || message.includes('Error') ? '#fee2e2' : '#dcfce7',
-                        border: `1px solid ${message.includes('error') || message.includes('Error') ? '#fecaca' : '#bbf7d0'}`,
-                        color: message.includes('error') || message.includes('Error') ? '#991b1b' : '#166534',
-                        fontSize: '0.875rem'
-                    }}>
+                    <div className={`mt-4 p-3 rounded-md text-sm border ${
+                        message.includes('error') || message.includes('Error')
+                            ? 'bg-destructive/10 border-destructive/20 text-destructive'
+                            : 'bg-green-500/10 border-green-500/20 text-green-700 dark:text-green-400'
+                    }`}>
                         {message}
                     </div>
                 )}
 
                 {/* Toggle Button */}
-                <div style={{ marginTop: '1.5rem', textAlign: 'center' }}>
+                <div className="mt-6 text-center">
                     <button
                         onClick={() => {
                             setIsSignUp(!isSignUp)
                             setMessage('')
                         }}
                         type="button"
-                        style={{
-                            backgroundColor: 'transparent',
-                            border: 'none',
-                            color: '#3b82f6',
-                            fontSize: '0.875rem',
-                            cursor: 'pointer',
-                            textDecoration: 'underline',
-                            padding: 0
-                        }}
-                        onMouseOver={(e) => e.currentTarget.style.color = '#2563eb'}
-                        onMouseOut={(e) => e.currentTarget.style.color = '#3b82f6'}
+                        className="bg-transparent border-none text-primary text-sm cursor-pointer underline p-0 hover:text-primary/80 transition-colors"
                     >
                         {isSignUp
                             ? 'Already have an account? Sign In'
@@ -269,13 +169,8 @@ export function Auth() {
 // Helper component for password requirements
 function PasswordRequirement({ met, text }: { met: boolean; text: string }) {
     return (
-        <div style={{ 
-            display: 'flex', 
-            alignItems: 'center', 
-            gap: '0.5rem',
-            color: met ? '#16a34a' : '#6b7280'
-        }}>
-            <span style={{ fontSize: '1rem' }}>
+        <div className={`flex items-center gap-2 ${met ? 'text-green-600 dark:text-green-400' : 'text-muted-foreground'}`}>
+            <span className="text-base">
                 {met ? '✓' : '○'}
             </span>
             <span>{text}</span>
