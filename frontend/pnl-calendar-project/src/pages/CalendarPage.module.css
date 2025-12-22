@@ -15,6 +15,10 @@
   margin-bottom: 1.5rem;
 }
 
+:global(.dark) .navBar {
+  border-bottom-color: hsl(var(--border));
+}
+
 .navLinks {
   display: flex;
   gap: 0.5rem;
@@ -34,10 +38,22 @@
   display: inline-block;
 }
 
+:global(.dark) .navLink {
+  background-color: hsl(var(--card));
+  border-color: hsl(var(--border));
+  color: hsl(var(--foreground));
+}
+
 .navLink:hover {
   background-color: #f3f4f6;
   border-color: #9ca3af;
   color: #1f2937;
+}
+
+:global(.dark) .navLink:hover {
+  background-color: hsl(var(--accent));
+  border-color: hsl(var(--accent));
+  color: hsl(var(--accent-foreground));
 }
 
 .loadingContainer,
@@ -53,8 +69,16 @@
   color: #6b7280;
 }
 
+:global(.dark) .loadingContainer {
+  color: hsl(var(--muted-foreground));
+}
+
 .errorContainer {
   color: #dc2626;
+}
+
+:global(.dark) .errorContainer {
+  color: hsl(var(--destructive));
 }
 
 .section {
@@ -107,6 +131,11 @@
   width: fit-content;
 }
 
+:global(.dark) .viewToggle {
+  border-color: hsl(var(--border));
+  background-color: hsl(var(--muted));
+}
+
 .toggleButton {
   padding: 0.5rem 1.5rem;
   font-size: 0.875rem;
@@ -120,10 +149,19 @@
   white-space: nowrap;
 }
 
+:global(.dark) .toggleButton {
+  color: hsl(var(--muted-foreground));
+}
+
 /* Hover effect - lighter background */
 .toggleButton:hover {
   background-color: #e5e7eb;
   color: #374151;
+}
+
+:global(.dark) .toggleButton:hover {
+  background-color: hsl(var(--accent));
+  color: hsl(var(--accent-foreground));
 }
 
 /* Active state - looks like a selected tab */
@@ -132,6 +170,13 @@
   color: #2563eb;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   border: 1px solid #d1d5db;
+}
+
+:global(.dark) .toggleButton.active {
+  background-color: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  border-color: hsl(var(--primary));
 }
 
 /* 
