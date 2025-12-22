@@ -6,12 +6,21 @@
   border: 2px solid #3b82f6;
 }
 
+:global(.dark) .goalSection {
+  background-color: hsla(var(--primary), 0.1);
+  border-color: hsl(var(--primary));
+}
+
 .goalTitle {
   font-size: 18px;
   font-weight: 600;
   color: #1f2937;
   margin-top: 0;
   margin-bottom: 16px;
+}
+
+:global(.dark) .goalTitle {
+  color: hsl(var(--foreground));
 }
 
 .setGoalButton {
@@ -52,9 +61,19 @@
   transition: border-color 0.2s;
 }
 
+:global(.dark) .goalInput {
+  background-color: hsl(var(--background));
+  border-color: hsl(var(--primary));
+  color: hsl(var(--foreground));
+}
+
 .goalInput:focus {
   border-color: #1d4ed8;
   box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+:global(.dark) .goalInput:focus {
+  box-shadow: 0 0 0 3px hsla(var(--primary), 0.2);
 }
 
 .goalFormButtons {
@@ -117,10 +136,18 @@
   margin-bottom: 4px;
 }
 
+:global(.dark) .goalLabel {
+  color: hsl(var(--muted-foreground));
+}
+
 .goalValue {
   font-size: 18px;
   font-weight: bold;
   color: #1f2937;
+}
+
+:global(.dark) .goalValue {
+  color: hsl(var(--foreground));
 }
 
 .progressBarContainer {
@@ -130,6 +157,10 @@
   border-radius: 12px;
   overflow: hidden;
   margin-bottom: 8px;
+}
+
+:global(.dark) .progressBarContainer {
+  background-color: hsl(var(--muted));
 }
 
 .progressBar {
@@ -143,6 +174,10 @@
   font-size: 14px;
   color: #4b5563;
   margin-bottom: 16px;
+}
+
+:global(.dark) .progressText {
+  color: hsl(var(--muted-foreground));
 }
 
 .goalActions {

@@ -19,9 +19,19 @@
   color: #374151;
 }
 
+:global(.dark) .navButton {
+  border-color: hsl(var(--border));
+  color: hsl(var(--foreground));
+}
+
 .navButton:hover {
   background-color: #f3f4f6;
   border-color: #d1d5db;
+}
+
+:global(.dark) .navButton:hover {
+  background-color: hsl(var(--accent));
+  border-color: hsl(var(--accent));
 }
 
 .navButton:active {
@@ -32,4 +42,8 @@
   font-size: 1.5rem;
   font-weight: 600;
   color: #111827;
+}
+
+:global(.dark) .monthTitle {
+  color: hsl(var(--foreground));
 }

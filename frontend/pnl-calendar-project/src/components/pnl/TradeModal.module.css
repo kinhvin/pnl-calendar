@@ -12,6 +12,10 @@
   animation: fadeIn 0.2s ease;
 }
 
+:global(.dark) .modalOverlay {
+  background-color: rgba(0, 0, 0, 0.75);
+}
+
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -29,6 +33,11 @@
   width: 90%;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
   animation: slideUp 0.3s ease;
+}
+
+:global(.dark) .modal {
+  background-color: hsl(var(--card));
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
 }
 
 @keyframes slideUp {
@@ -50,6 +59,10 @@
   color: #1f2937;
 }
 
+:global(.dark) .modalTitle {
+  color: hsl(var(--foreground));
+}
+
 .formGroup {
   margin-bottom: 16px;
 }
@@ -60,6 +73,10 @@
   font-weight: 500;
   margin-bottom: 6px;
   color: #374151;
+}
+
+:global(.dark) .label {
+  color: hsl(var(--foreground));
 }
 
 .input {
@@ -73,10 +90,21 @@
   transition: border-color 0.2s, box-shadow 0.2s;
 }
 
+:global(.dark) .input {
+  background-color: hsl(var(--background));
+  border-color: hsl(var(--border));
+  color: hsl(var(--foreground));
+}
+
 .input:focus {
   outline: none;
   border-color: #3b82f6;
   box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+:global(.dark) .input:focus {
+  border-color: hsl(var(--primary));
+  box-shadow: 0 0 0 3px hsla(var(--primary), 0.2);
 }
 
 .modalButtons {

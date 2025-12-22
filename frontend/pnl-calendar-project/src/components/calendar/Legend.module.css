@@ -25,9 +25,19 @@
   border: 2px solid #16a34a;
 }
 
+:global(.dark) .legendBox.profit {
+  background-color: rgba(34, 197, 94, 0.15);
+  border-color: rgba(34, 197, 94, 0.5);
+}
+
 .legendBox.loss {
   background-color: #fee2e2;
   border: 2px solid #dc2626;
+}
+
+:global(.dark) .legendBox.loss {
+  background-color: rgba(239, 68, 68, 0.15);
+  border-color: rgba(239, 68, 68, 0.5);
 }
 
 .legendBox.today {
@@ -35,6 +45,15 @@
   border: 2px solid #3b82f6;
 }
 
+:global(.dark) .legendBox.today {
+  background-color: hsl(var(--card));
+  border-color: hsl(var(--primary));
+}
+
 .legendText {
   color: #4b5563;
+}
+
+:global(.dark) .legendText {
+  color: hsl(var(--muted-foreground));
 }
