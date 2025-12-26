@@ -1,20 +1,33 @@
 import { CalendarDay } from './CalendarDay';
 import type { DayData } from '../../types';
+import type { CalendarEvent } from '../../types/events';
 import styles from './CalendarGrid.module.css';
 
 interface CalendarGridProps {
   currentDate: Date;
   data: Record<string, DayData>;
+  events?: CalendarEvent[];
   onDayClick: (day: number) => void;
 }
 
-export function CalendarGrid({ currentDate, data, onDayClick }: CalendarGridProps) {
+export function CalendarGrid({ currentDate, data, events = [], onDayClick }: CalendarGridProps) {
   const getDaysInMonth = (date: Date) => {
     return new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
   };
 
   const getFirstDayOfMonth = (date: Date) => {
     return new Date(date.getFullYear(), date.getMonth(), 1).getDay();
+  };
+
+  const getEventsForDate = (dateKey: string): CalendarEvent[] => {
+    return events.filter(event => {
+      const eventStart = new Date(event.startDate);
+      const eventEnd = event.endDate ? new Date(event.endDate) : eventStart;
+      const targetDate = new Date(dateKey);
+      
+      // Check if target date falls within event range
+      return targetDate >= eventStart && targetDate <= eventEnd;
+    });
   };
 
   const renderDays = () => {
@@ -36,6 +49,7 @@ export function CalendarGrid({ currentDate, data, onDayClick }: CalendarGridProp
       ).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
       
       const dayData = data[dateKey];
+      const dayEvents = getEventsForDate(dateKey);
       
       const isToday =
         day === new Date().getDate() &&
@@ -47,6 +61,7 @@ export function CalendarGrid({ currentDate, data, onDayClick }: CalendarGridProp
           key={day}
           day={day}
           data={dayData}
+          events={dayEvents}
           isToday={isToday}
           onClick={() => onDayClick(day)}
         />

@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
-import { CalendarHeader, CalendarGrid, Legend } from '../components/calendar';
+import { CalendarHeader, CalendarGrid, Legend, EventModal, EventList } from '../components/calendar';
 import { MonthlyStatsSection, GoalSection, TradeModal, PnLChart } from '../components/pnl';
 import { useCalendarData } from '../hooks';
 import { useAuth } from '../contexts/AuthContext';
 import { createPNLEntry, updatePNLEntry, deletePNLEntry, fetchMonthlyGoal, upsertMonthlyGoal, deleteMonthlyGoal, fetchPNLEntries } from '../services/calendarService';
-import type { TradeForm, MonthlyStats as MonthlyStatsType, GoalProgress } from '../types';
+import { getEvents, getEventsByMonth, createEvent, updateEvent, deleteEvent } from '../services/eventService';
+import type { TradeForm, MonthlyStats as MonthlyStatsType, GoalProgress, CalendarEvent, EventFormData } from '../types';
 import styles from './CalendarPage.module.css';
 
 export function CalendarPage() {
@@ -38,6 +39,13 @@ export function CalendarPage() {
   const [currentGoal, setCurrentGoal] = useState<number | null>(null);
   const [isEditingGoal, setIsEditingGoal] = useState(false);
   const [goalInput, setGoalInput] = useState('');
+
+  // Event state
+  const [events, setEvents] = useState<CalendarEvent[]>([]);
+  const [isEventModalOpen, setIsEventModalOpen] = useState(false);
+  const [selectedEventDate, setSelectedEventDate] = useState<string>('');
+  const [editingEvent, setEditingEvent] = useState<CalendarEvent | undefined>(undefined);
+  const [showEventsList, setShowEventsList] = useState(false);
 
   // Load all historical data for chart view
   useEffect(() => {
@@ -83,6 +91,15 @@ export function CalendarPage() {
 
     loadGoal();
   }, [user, currentDate]);
+
+  // Load events when month changes
+  useEffect(() => {
+    const monthEvents = getEventsByMonth(
+      currentDate.getFullYear(),
+      currentDate.getMonth()
+    );
+    setEvents(monthEvents);
+  }, [currentDate]);
 
   // Month navigation handlers
   const previousMonth = () => {
@@ -284,6 +301,69 @@ export function CalendarPage() {
     setGoalInput('');
   };
 
+  // Event handlers
+  const handleDayClickWithEvents = (day: number) => {
+    const key = `${currentDate.getFullYear()}-${String(
+      currentDate.getMonth() + 1
+    ).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+    setSelectedDay(key);
+    setSelectedEventDate(key);
+
+    const existingData = data[key];
+    if (existingData) {
+      setFormData({
+        pnl: existingData.pnl.toString(),
+        trades: existingData.trades?.toString() || '',
+      });
+    } else {
+      setFormData({ pnl: '', trades: '' });
+    }
+  };
+
+  const handleCreateEvent = () => {
+    setEditingEvent(undefined);
+    setIsEventModalOpen(true);
+  };
+
+  const handleEventSave = (eventData: EventFormData) => {
+    if (editingEvent) {
+      // Update existing event
+      const updated = updateEvent(editingEvent.id, eventData);
+      if (updated) {
+        const monthEvents = getEventsByMonth(
+          currentDate.getFullYear(),
+          currentDate.getMonth()
+        );
+        setEvents(monthEvents);
+      }
+    } else {
+      // Create new event
+      createEvent(eventData);
+      const monthEvents = getEventsByMonth(
+        currentDate.getFullYear(),
+        currentDate.getMonth()
+      );
+      setEvents(monthEvents);
+    }
+    setIsEventModalOpen(false);
+    setEditingEvent(undefined);
+  };
+
+  const handleEventClick = (event: CalendarEvent) => {
+    setEditingEvent(event);
+    setSelectedEventDate(event.startDate);
+    setIsEventModalOpen(true);
+  };
+
+  const handleEventDelete = (eventId: string) => {
+    deleteEvent(eventId);
+    const monthEvents = getEventsByMonth(
+      currentDate.getFullYear(),
+      currentDate.getMonth()
+    );
+    setEvents(monthEvents);
+  };
+
   // Calculate goal progress
   const calculateGoalProgress = (monthlyStats: MonthlyStatsType): GoalProgress | null => {
     if (!currentGoal) return null;
@@ -343,6 +423,35 @@ export function CalendarPage() {
         </button>
       </div>
 
+      {/* Event Controls */}
+      {activeView === 'calendar' && (
+        <div className={styles.eventControls}>
+          <button
+            className={styles.eventButton}
+            onClick={handleCreateEvent}
+          >
+            + Add Event
+          </button>
+          <button
+            className={styles.eventButton}
+            onClick={() => setShowEventsList(!showEventsList)}
+          >
+            {showEventsList ? 'Hide' : 'Show'} Events ({events.length})
+          </button>
+        </div>
+      )}
+
+      {/* Events List */}
+      {activeView === 'calendar' && showEventsList && (
+        <div className={styles.section}>
+          <h3 className={styles.sectionTitle}>Events This Month</h3>
+          <EventList
+            events={events}
+            onEventClick={handleEventClick}
+          />
+        </div>
+      )}
+
       {/* Monthly Statistics Section - Only show in calendar view */}
       {activeView === 'calendar' && (
         <div className={styles.section}>
@@ -391,7 +500,8 @@ export function CalendarPage() {
           <CalendarGrid
             currentDate={currentDate}
             data={data}
-            onDayClick={handleDayClick}
+            events={events}
+            onDayClick={handleDayClickWithEvents}
           />
         </>
       ) : (
@@ -415,6 +525,19 @@ export function CalendarPage() {
           hasExistingData={!!data[selectedDay]}
         />
       )}
+
+      {/* Event Modal */}
+      <EventModal
+        isOpen={isEventModalOpen}
+        onClose={() => {
+          setIsEventModalOpen(false);
+          setEditingEvent(undefined);
+        }}
+        onSave={handleEventSave}
+        onDelete={handleEventDelete}
+        selectedDate={selectedEventDate || new Date().toISOString().split('T')[0]}
+        existingEvent={editingEvent}
+      />
     </>
   );
 }
