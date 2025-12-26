@@ -4,7 +4,7 @@ import { MonthlyStatsSection, GoalSection, TradeModal, PnLChart } from '../compo
 import { useCalendarData } from '../hooks';
 import { useAuth } from '../contexts/AuthContext';
 import { createPNLEntry, updatePNLEntry, deletePNLEntry, fetchMonthlyGoal, upsertMonthlyGoal, deleteMonthlyGoal, fetchPNLEntries } from '../services/calendarService';
-import { getEvents, getEventsByMonth, createEvent, updateEvent, deleteEvent } from '../services/eventService';
+import { getEventsByMonth, createEvent, updateEvent, deleteEvent } from '../services/eventService';
 import type { TradeForm, MonthlyStats as MonthlyStatsType, GoalProgress, CalendarEvent, EventFormData } from '../types';
 import styles from './CalendarPage.module.css';
 
@@ -112,24 +112,6 @@ export function CalendarPage() {
     setCurrentDate(
       new Date(currentDate.getFullYear(), currentDate.getMonth() + 1)
     );
-  };
-
-  // Day click handler
-  const handleDayClick = (day: number) => {
-    const key = `${currentDate.getFullYear()}-${String(
-      currentDate.getMonth() + 1
-    ).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-    setSelectedDay(key);
-
-    const existingData = data[key];
-    if (existingData) {
-      setFormData({
-        pnl: existingData.pnl.toString(),
-        trades: existingData.trades?.toString() || '',
-      });
-    } else {
-      setFormData({ pnl: '', trades: '' });
-    }
   };
 
   // Submit handler

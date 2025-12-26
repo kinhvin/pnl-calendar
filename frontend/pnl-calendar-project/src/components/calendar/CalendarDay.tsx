@@ -118,7 +118,7 @@ export function CalendarDay({ day, data, isToday, onClick, events = [] }: Calend
                             <div className={styles.eventTag}>
                                 <span 
                                     className={styles.eventTagDot}
-                                    style={{ backgroundColor: primaryEventColor }}
+                                    style={{ backgroundColor: primaryEventColor || 'transparent' }}
                                 />
                                 {events[0].title}
                                 {events.length > 1 && (
