@@ -77,7 +77,7 @@ export function EventList({ events, onEventClick, selectedDate }: EventListProps
       <div className={styles.emptyState}>
         <p>No events {selectedDate ? 'for this date' : 'yet'}</p>
         <span className={styles.emptyHint}>
-          Click on the "Add Event" button to add your first event
+          Click on a day to add your first event
         </span>
       </div>
     );
